@@ -1,26 +1,60 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
+import React, { useState } from 'react'
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 
-const data = {
-    labels: ["Swim"],
-    data: [0.4]
-};
+//Ejemplo de json
+const ejemplo = {
+    "uv": 11,
+}
+
+function mapValue(value, minOriginal, maxOriginal, minNuevo, maxNuevo) {
+    return ((value - minOriginal) / (maxOriginal - minOriginal)) * (maxNuevo - minNuevo) + minNuevo;
+}
+
 const { width, height } = Dimensions.get('window');
 
-const chartConfig = {
-    backgroundGradientFrom: "#fff",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false
-};
 
 export default function Inicio({ navigation }) {
+
+    let getUV = () => {
+        medida = mapValue(ejemplo.uv, 0, 15, 0, 1)
+        data = {
+            labels: ["uv"],
+            data: [medida]
+        };
+        return data
+    }
+
+
+
+
+    const chartConfig = {
+        backgroundGradientFrom: "#fff",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#08130D",
+        backgroundGradientToOpacity: 0,
+        color: (opacity = 1) => {
+            valor = getUV().data
+            if (valor >= 0.0666 && valor < 0.2) {
+                return `rgba(140, 189, 21, ${opacity})`;
+            } else if (valor >= 0.2 && valor < 0.4) {
+                return `rgba(249, 229, 18, ${opacity})`;
+            } else if (valor >= 0.4 && valor < 0.5333) {
+                return `rgba(242, 147, 18, ${opacity})`;
+            } else if (valor >= 0.5333 && valor < 0.7333) {
+                return `rgba(226, 4, 32, ${opacity})`;
+            } else if (valor >= 0.7333) {
+                return `rgba(134, 46, 156, ${opacity})`;
+            } else {
+                return `rgba(32, 160, 46, ${opacity})`;
+            }
+        },
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false
+    };
+
     return (
         <LinearGradient
             colors={['#1fa0ff', '#12dafb', '#a7fdcc']}
@@ -28,18 +62,18 @@ export default function Inicio({ navigation }) {
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
         >
-                <View style={{ position: 'relative', alignSelf:'center' }}>
+            <View style={{ position: 'relative', alignSelf: 'center' }}>
                 <ProgressChart
-                    data={data}
-                    height={height/3}
-                    strokeWidth={height/15}
-                    radius={height/10}
+                    data={getUV()}
+                    height={height / 3}
+                    strokeWidth={height / 15}
+                    radius={height / 10}
                     chartConfig={chartConfig}
                     hideLegend={true}
                     width={width}
                 />
-                <Text style={{ position: 'absolute', top: height/6-16, left: width/2-18, alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: "white" }}>6.25</Text>
-                </View>
+                <Text style={{ position: 'absolute', top: height/6 - 16, left: width /2-20, alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: "white" }}>{ejemplo.uv.toFixed(2)}</Text>
+            </View>
         </LinearGradient>
     )
 }
