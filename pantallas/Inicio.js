@@ -40,12 +40,6 @@ export default function Inicio({ navigation }) {
                 />
                 <Text style={{ position: 'absolute', top: height/6-16, left: width/2-18, alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: "white" }}>6.25</Text>
                 </View>
-            <TouchableOpacity style={styles.loginButton} onPress={() => { navigation.navigate('Login') }}>
-                <Text style={styles.buttonText}>Log</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.loginButton} onPress={() => { navigation.navigate('Historico') }}>
-                <Text style={styles.buttonText}>Historico</Text>
-            </TouchableOpacity>
         </LinearGradient>
     )
 }
@@ -106,5 +100,7 @@ const styles = StyleSheet.create({
     },
     gradient: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

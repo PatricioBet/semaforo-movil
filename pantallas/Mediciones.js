@@ -3,6 +3,22 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { LineChart } from 'react-native-chart-kit'
 import { Dimensions, StyleSheet } from 'react-native';
 
+let datos = {
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+    datasets: [
+        {
+            data: [
+                11.2,
+                10,
+                4.56,
+                8,
+                3,
+                11
+            ]
+        }
+    ]
+}
+
 
 export default function Mediciones() {
     return (
@@ -13,23 +29,9 @@ export default function Mediciones() {
             style={styles.gradient}
         >
             <LineChart
-                data={{
-                    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-                    datasets: [
-                        {
-                            data: [
-                                11.2,
-                                10,
-                                4.56,
-                                8,
-                                3,
-                                11
-                            ]
-                        }
-                    ]
-                }}
-                width={Dimensions.get("window").width} // from react-native
-                height={220}
+                data={datos}
+                width={Dimensions.get("window").width * .9}
+                height={Dimensions.get("window").width * 0.6}
                 yAxisSuffix=" uv"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
@@ -51,7 +53,7 @@ export default function Mediciones() {
                 bezier
                 style={{
                     marginVertical: 8,
-                    borderRadius: 16
+                    borderRadius: 15
                 }}
             />
         </LinearGradient>
@@ -114,5 +116,7 @@ const styles = StyleSheet.create({
     },
     gradient: {
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
