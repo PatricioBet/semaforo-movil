@@ -11,6 +11,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
 } from 'react-native';
 
 
@@ -79,15 +80,14 @@ const LoginScreen = () => {
     inner: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
       paddingHorizontal: 20,
+      paddingTop: StatusBar.currentHeight * 2 || 0
     },
     title: {
       fontSize: 32, // Tamaño más grande
       fontWeight: 'bold', // Puede añadir negrita para más énfasis
-      color: '#000', // Color diferente
+      color: '#e6ebe0', // Color diferente
       shadowColor: "#fff",
-      
       marginBottom: 40, // Aumentar el espacio inferior
     },
     logo: {

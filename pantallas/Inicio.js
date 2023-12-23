@@ -1,11 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { Dimensions, StyleSheet, Text, ScrollView, View, StatusBar } from 'react-native';
+import { Dimensions, StyleSheet, Text, ScrollView, View, StatusBar, TouchableOpacity, Linking } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 
 //Ejemplo de json
 const ejemplo = {
-    "uv": 11,
+    "uv": 5.24,
 }
 
 function mapValue(value, minOriginal, maxOriginal, minNuevo, maxNuevo) {
@@ -80,32 +80,47 @@ export default function Inicio({ navigation }) {
                 <View style={styles.columna}>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 1</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.23</Text>
+                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 1</Text>
+                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.23</Text>
+                            </TouchableOpacity>
                         </View>
+
                         <View style={styles.sec_interno}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 2</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>5.27</Text>
+                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 2</Text>
+
+                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>5.27</Text>
+                            </TouchableOpacity>
                         </View>
+
                     </View>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
+                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 3</Text>
                             <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>8.55</Text>
+                        </TouchableOpacity>
                         </View>
                         <View style={styles.sec_interno}>
+                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 4</Text>
                             <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>9.32</Text>
+                        </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
+                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 5</Text>
                             <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>4.02</Text>
+                        </TouchableOpacity>
                         </View>
                         <View style={styles.sec_interno}>
+                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 6</Text>
                             <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.15</Text>
+                        </TouchableOpacity>
                         </View>
                     </View>
 
@@ -124,7 +139,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         alignSelf: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.4)',
+        backgroundColor: 'rgba(20,80,180,0.4)',
         borderRadius: 20,
         margin: '2%',
         width: '95%',
@@ -145,7 +160,7 @@ const styles = StyleSheet.create({
         marginBottom: 10, // Espacio inferior entre filas
     },
     sec_interno: {
-        backgroundColor: 'rgba(0,0,0,0.3)',
+        backgroundColor: 'rgba(0,0,80,0.3)',
         borderRadius: 15,
         height: 140, // Altura fija de los elementos internos
         width: '48%', // Ancho fijo para cada elemento
