@@ -1,7 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Dimensions, StyleSheet, Text, ScrollView, View, StatusBar, TouchableOpacity, Linking } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+
 
 //Ejemplo de json
 const ejemplo = {
@@ -16,6 +18,8 @@ const { width, height } = Dimensions.get('window');
 
 
 export default function Inicio({ navigation }) {
+    const [valorUv, setValorUv] = useState(0.0);
+    const [showVal, setShowVal] = useState(true);
 
     let getUV = () => {
         medida = mapValue(ejemplo.uv, 0, 15, 0, 1)
@@ -23,6 +27,12 @@ export default function Inicio({ navigation }) {
             labels: ["uv"],
             data: [medida]
         };
+
+        if (showVal) {
+            setValorUv(ejemplo.uv);
+            setShowVal(false)
+        }
+
         return data
     }
 
@@ -50,6 +60,43 @@ export default function Inicio({ navigation }) {
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
         useShadowColorFromDataset: false
+
+
+    };
+
+    const renderRecomendaciones = () => {
+
+        const [activeDotIndex, setActiveDotIndex] = useState(0)
+        const _carousel = useRef()
+
+        const _renderItem = ({ item, index }) => {
+            return (
+                <View style={{ flex: 1 }}>
+                    <Text style={styles.text}>{item.title}</Text>
+                </View>
+            );
+        };
+
+        const data = [
+            { title: 'Item 1' },
+            { title: 'Item 2' },
+            { title: 'Item 3' },
+        ];
+
+        return (
+            <View >
+                <View style={styles.recomendaciones}>
+                <Carousel
+                    ref={_carousel}
+                    data={data}
+                    renderItem={_renderItem} // Utiliza _renderItem aquí
+                    sliderWidth={Dimensions.get('window').width*0.9} // Quité las comillas ya que se espera un número
+                    itemWidth={Dimensions.get('window').width} // Quité las comillas ya que se espera un número
+                    onSnapToItem={index => setActiveDotIndex(index)}
+                />
+                </View>
+            </View>
+        );
     };
 
     return (
@@ -77,6 +124,11 @@ export default function Inicio({ navigation }) {
                     />
                     <Text style={styles.text}>{ejemplo.uv.toFixed(2)}</Text>
                 </View>
+
+                
+                    {renderRecomendaciones()}
+
+
                 <View style={styles.columna}>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
@@ -97,31 +149,26 @@ export default function Inicio({ navigation }) {
                     </View>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
-                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 3</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>8.55</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 3</Text>
+                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>8.55</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.sec_interno}>
-                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 4</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>9.32</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 4</Text>
+                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>9.32</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.secundario}>
                         <View style={styles.sec_interno}>
-                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 5</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>4.02</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 5</Text>
+                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>4.02</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.sec_interno}>
-                        <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 6</Text>
-                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.15</Text>
-                        </TouchableOpacity>
-                        </View>
+
                     </View>
 
                 </View>
@@ -165,6 +212,16 @@ const styles = StyleSheet.create({
         height: 140, // Altura fija de los elementos internos
         width: '48%', // Ancho fijo para cada elemento
         marginHorizontal: '1%', // Espacio horizontal entre elementos
+    },
+    recomendaciones: {
+        backgroundColor: 'rgba(0,0,80,0.3)',
+        borderRadius: 15,
+        height: 200, // Altura fija de los elementos internos
+        width: '94%', // Ancho fijo para cada elemento
+        alignSelf: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '1%'
     },
     text: {
         position: 'absolute',
