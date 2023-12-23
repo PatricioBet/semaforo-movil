@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { Dimensions, StyleSheet, Text, ScrollView, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, ScrollView, View, StatusBar } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 
 //Ejemplo de json
@@ -25,9 +25,6 @@ export default function Inicio({ navigation }) {
         };
         return data
     }
-
-
-
 
     const chartConfig = {
         backgroundGradientFrom: "#fff",
@@ -63,38 +60,56 @@ export default function Inicio({ navigation }) {
             style={styles.gradient}
         >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <View style={styles.inicial}>
-                <ProgressChart
-                    data={getUV()}
-                    height={height / 3}
-                    strokeWidth={height / 15}
-                    radius={height / 10}
-                    chartConfig={chartConfig}
-                    hideLegend={true}
-                    width={width * 0.9}
-                    style={{ alignSelf: 'center' }}
-                />
-                <Text style={styles.text}>{ejemplo.uv.toFixed(2)}</Text>
-            </View>
-            <View style={styles.columna}>
-                <View style={styles.secundario}>
-                    <View style={styles.sec_interno}></View>
-                    <View style={styles.sec_interno}></View>
+                <View style={{ paddingTop: StatusBar.currentHeight * 2 || 0, marginLeft: '4%', marginBottom: '1%', width: '92%', flexDirection: '' }}>
+                    <Text style={{ fontSize: 25, fontWeight: '900', color: '#e6ebe0' }}>Indice UV</Text>
+                    <Text style={{ fontSize: 25, fontWeight: '500', color: '#fdfaff', alignSelf: 'center' }}>Loja</Text>
                 </View>
-                <View style={styles.secundario}>
-                    <View style={styles.sec_interno}></View>
-                    <View style={styles.sec_interno}></View>
+                <View style={styles.inicial}>
+                    <ProgressChart
+                        data={getUV()}
+                        height={height / 3}
+                        strokeWidth={height / 16}
+                        radius={height / 9}
+                        chartConfig={chartConfig}
+                        hideLegend={true}
+                        width={width * 0.9}
+                        style={{ alignSelf: 'center' }}
+                    />
+                    <Text style={styles.text}>{ejemplo.uv.toFixed(2)}</Text>
                 </View>
-                <View style={styles.secundario}>
-                    <View style={styles.sec_interno}></View>
-                    <View style={styles.sec_interno}></View>
+                <View style={styles.columna}>
+                    <View style={styles.secundario}>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 1</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.23</Text>
+                        </View>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 2</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>5.27</Text>
+                        </View>
+                    </View>
+                    <View style={styles.secundario}>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 3</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>8.55</Text>
+                        </View>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 4</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>9.32</Text>
+                        </View>
+                    </View>
+                    <View style={styles.secundario}>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 5</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>4.02</Text>
+                        </View>
+                        <View style={styles.sec_interno}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 6</Text>
+                            <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.15</Text>
+                        </View>
+                    </View>
+
                 </View>
-                <View style={styles.secundario}>
-                    <View style={styles.sec_interno}></View>
-                    <View style={styles.sec_interno}></View>
-                </View>
-                
-            </View>
             </ScrollView>
         </LinearGradient>
     )
@@ -111,8 +126,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(255,255,255,0.4)',
         borderRadius: 20,
-        margin: '1%',
-        marginTop: '10%',
+        margin: '2%',
         width: '95%',
     },
     columna: {
@@ -122,32 +136,31 @@ const styles = StyleSheet.create({
         width: '100%', // Ocupar todo el ancho disponible
         paddingHorizontal: 10, // Agregar espacios laterales
         marginTop: 10,
-      },
-      secundario: {
+    },
+    secundario: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%', // Ocupar todo el ancho disponible
         marginBottom: 10, // Espacio inferior entre filas
-      },
-      sec_interno: {
+    },
+    sec_interno: {
         backgroundColor: 'rgba(0,0,0,0.3)',
         borderRadius: 15,
         height: 140, // Altura fija de los elementos internos
         width: '48%', // Ancho fijo para cada elemento
         marginHorizontal: '1%', // Espacio horizontal entre elementos
-      },
+    },
     text: {
         position: 'absolute',
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 30,
+        fontWeight: '900',
         color: "white",
         alignSelf: 'center'
     },
     scrollContainer: {
         flexGrow: 1,
-        alignItems: 'center',
         paddingBottom: 20,
-      },
+    },
 
 });
