@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, ScrollView, View } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 
 //Ejemplo de json
@@ -62,7 +62,8 @@ export default function Inicio({ navigation }) {
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
         >
-            <View style={{ position: 'relative', alignSelf: 'center' }}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.inicial}>
                 <ProgressChart
                     data={getUV()}
                     height={height / 3}
@@ -70,71 +71,83 @@ export default function Inicio({ navigation }) {
                     radius={height / 10}
                     chartConfig={chartConfig}
                     hideLegend={true}
-                    width={width}
+                    width={width * 0.9}
+                    style={{ alignSelf: 'center' }}
                 />
-                <Text style={{ position: 'absolute', top: height/6 - 16, left: width /2-20, alignSelf: 'center', fontSize: 20, fontWeight: 'bold', color: "white" }}>{ejemplo.uv.toFixed(2)}</Text>
+                <Text style={styles.text}>{ejemplo.uv.toFixed(2)}</Text>
             </View>
+            <View style={styles.columna}>
+                <View style={styles.secundario}>
+                    <View style={styles.sec_interno}></View>
+                    <View style={styles.sec_interno}></View>
+                </View>
+                <View style={styles.secundario}>
+                    <View style={styles.sec_interno}></View>
+                    <View style={styles.sec_interno}></View>
+                </View>
+                <View style={styles.secundario}>
+                    <View style={styles.sec_interno}></View>
+                    <View style={styles.sec_interno}></View>
+                </View>
+                <View style={styles.secundario}>
+                    <View style={styles.sec_interno}></View>
+                    <View style={styles.sec_interno}></View>
+                </View>
+                
+            </View>
+            </ScrollView>
         </LinearGradient>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    inner: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 20,
-    },
-    title: {
-        fontSize: 32, // Tamaño más grande
-        fontWeight: 'bold', // Puede añadir negrita para más énfasis
-        color: '#000', // Color diferente
-        shadowColor: "#fff",
-
-        marginBottom: 40, // Aumentar el espacio inferior
-    },
-    logo: {
-        width: 120,
-        height: 130,
-        marginBottom: 30,
-    },
-    inputContainer: {
-        width: '100%',
-        marginBottom: 15,
-    },
-    input: {
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-    },
-    loginButton: {
-        backgroundColor: 'blue',
-        width: '100%',
-        alignItems: 'center',
-        padding: 15,
-        borderRadius: 5,
-        marginTop: 15,
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    signupContainer: {
-        flexDirection: 'row',
-        marginTop: 20,
-    },
-    signupText: {
-        marginLeft: 5,
-        color: 'blue',
-    },
     gradient: {
-        flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
+        flex: 1
     },
+    inicial: {
+        position: 'relative',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255,255,255,0.4)',
+        borderRadius: 20,
+        margin: '1%',
+        marginTop: '10%',
+        width: '95%',
+    },
+    columna: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        width: '100%', // Ocupar todo el ancho disponible
+        paddingHorizontal: 10, // Agregar espacios laterales
+        marginTop: 10,
+      },
+      secundario: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        width: '100%', // Ocupar todo el ancho disponible
+        marginBottom: 10, // Espacio inferior entre filas
+      },
+      sec_interno: {
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        borderRadius: 15,
+        height: 140, // Altura fija de los elementos internos
+        width: '48%', // Ancho fijo para cada elemento
+        marginHorizontal: '1%', // Espacio horizontal entre elementos
+      },
+    text: {
+        position: 'absolute',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: "white",
+        alignSelf: 'center'
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        alignItems: 'center',
+        paddingBottom: 20,
+      },
+
 });
