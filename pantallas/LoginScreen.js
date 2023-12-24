@@ -22,6 +22,7 @@ const LoginScreen = () => {
     const handleLogin = () => {
       console.log('Iniciar sesión con:', email, password);
       Alert.alert(email, password);
+      
     };
   
     return (

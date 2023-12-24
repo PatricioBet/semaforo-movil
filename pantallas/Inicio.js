@@ -1,14 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, StyleSheet, Text, ScrollView, View, StatusBar, TouchableOpacity, Linking } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { medidas, promedio } from '../Hooks/Conexion';
 
 
 //Ejemplo de json
-const ejemplo = {
-    "uv": 5.24,
-}
+
 
 function mapValue(value, minOriginal, maxOriginal, minNuevo, maxNuevo) {
     return ((value - minOriginal) / (maxOriginal - minOriginal)) * (maxNuevo - minNuevo) + minNuevo;
@@ -21,20 +20,32 @@ export default function Inicio({ navigation }) {
     const [valorUv, setValorUv] = useState(0.0);
     const [showVal, setShowVal] = useState(true);
 
+    const ejemplo = {
+        "uv": 5.24,
+    }
+
     let getUV = () => {
-        medida = mapValue(ejemplo.uv, 0, 15, 0, 1)
+        //const datos = await promedio()
+        const medida = mapValue(ejemplo.uv, 0, 15, 0, 1)
+
         data = {
             labels: ["uv"],
             data: [medida]
         };
 
-        if (showVal) {
-            setValorUv(ejemplo.uv);
-            setShowVal(false)
-        }
-
         return data
     }
+
+    useEffect(() => {
+        const obtenerPromedio = async () => {
+            const valorPromedio = await promedio();
+            setValorUv(valorPromedio.uv);
+            setShowVal(false);
+        };
+        if (showVal) {
+            obtenerPromedio();
+        }
+    }, [showVal]);
 
     const chartConfig = {
         backgroundGradientFrom: "#fff",
@@ -42,16 +53,16 @@ export default function Inicio({ navigation }) {
         backgroundGradientTo: "#08130D",
         backgroundGradientToOpacity: 0,
         color: (opacity = 1) => {
-            valor = getUV().data
-            if (valor >= 0.0666 && valor < 0.2) {
+            valor = valorUv
+            if (valor >= 1 && valor < 3) {
                 return `rgba(140, 189, 21, ${opacity})`;
-            } else if (valor >= 0.2 && valor < 0.4) {
+            } else if (valor >= 3 && valor < 6) {
                 return `rgba(249, 229, 18, ${opacity})`;
-            } else if (valor >= 0.4 && valor < 0.5333) {
+            } else if (valor >= 6 && valor < 8) {
                 return `rgba(242, 147, 18, ${opacity})`;
-            } else if (valor >= 0.5333 && valor < 0.7333) {
+            } else if (valor >= 8 && valor < 11) {
                 return `rgba(226, 4, 32, ${opacity})`;
-            } else if (valor >= 0.7333) {
+            } else if (valor >= 11) {
                 return `rgba(134, 46, 156, ${opacity})`;
             } else {
                 return `rgba(32, 160, 46, ${opacity})`;
@@ -71,33 +82,103 @@ export default function Inicio({ navigation }) {
 
         const _renderItem = ({ item, index }) => {
             return (
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 15 }}>
                     <Text style={styles.text}>{item.title}</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                        <Text style={{ alignSelf: 'center', fontSize: 20, textAlign: 'center', color: 'white', margin: '3%' }}>{item.description}</Text>
+                    </View>
                 </View>
             );
         };
 
-        const data = [
-            { title: 'Item 1' },
-            { title: 'Item 2' },
-            { title: 'Item 3' },
+        let data = [
+            { title: 'Gafas de sol', description: 'Ofrecen protección vital para los ojos contra los rayos UV.' }
         ];
+        
+        if (valorUv >= 3 && valorUv < 6) {
+            data.push(
+                { title: 'Sombrero', description: 'Use gorra o sombrero para cubrir rostro y cuello del sol.' },
+                { title: 'Protector solar', description: 'Aplique protector solar de factor bajo cada dos horas para resguardar la piel.' },
+            );
+        } else if (valorUv >= 6 && valorUv < 8) {
+            data.push(
+                { title: 'Sombrero', description: 'Un sombrero o gorra es esencial para proteger rostro y cuello.' },
+                { title: 'Ropa manga larga', description: 'Opte por prendas frescas y de manga larga para cubrir la mayor parte de la piel.' },
+                { title: 'Protector solar', description: 'Utilice protector solar de factor bajo cada dos horas para mantener la piel protegida.' },
+                { title: 'Cuide a los bebes', description: 'Los bebés requieren especial atención; evite su exposición directa al sol.' },
+                { title: 'Sombra', description: 'Busque áreas con sombra para descansar y resguardarse del sol.' },
+            );
+        } else if (valorUv >= 8 && valorUv < 11) {
+            data.push(
+                { title: 'Sombrero', description: 'Un sombrero o gorra es esencial para proteger rostro y cuello.' },
+                { title: 'Ropa manga larga', description: 'Use ropa ligera pero de manga larga para proteger la piel.' },
+                { title: 'Protector solar', description: 'Aplique protector solar de factor alto cada dos horas para una protección adecuada.' },
+                { title: 'Cuide a los niños', description: 'Evite la exposición solar excesiva en los niños, es crucial proteger su piel delicada.' },
+                { title: 'Sombra', description: 'Encuentre áreas con sombra para minimizar la exposición directa al sol.' },
+                { title: 'Evite el sol', description: 'Es aconsejable evitar la exposición al sol entre las 12h y 16h, cuando los rayos son más intensos.' },
+            );
+        } else if (valorUv >= 11) {
+            data = [{ title: 'Evite el sol', description: 'Se recomienda evitar la exposición al sol durante todo el día debido a la extrema intensidad de los rayos UV.' }];
+        }
+        
 
         return (
-            <View >
-                <View style={styles.recomendaciones}>
-                <Carousel
-                    ref={_carousel}
-                    data={data}
-                    renderItem={_renderItem} // Utiliza _renderItem aquí
-                    sliderWidth={Dimensions.get('window').width*0.9} // Quité las comillas ya que se espera un número
-                    itemWidth={Dimensions.get('window').width} // Quité las comillas ya que se espera un número
-                    onSnapToItem={index => setActiveDotIndex(index)}
-                />
+            <View style={styles.recomendaciones}>
+                <View >
+                    <Carousel
+                        ref={_carousel}
+                        data={data}
+                        renderItem={_renderItem} // Utiliza _renderItem aquí
+                        sliderWidth={Dimensions.get('window').width * 0.9} // Quité las comillas ya que se espera un número
+                        itemWidth={Dimensions.get('window').width * 0.7} // Quité las comillas ya que se espera un número
+                        onSnapToItem={index => setActiveDotIndex(index)}
+                    />
                 </View>
             </View>
         );
     };
+
+    const [componentesRenderizados, setComponentesRenderizados] = useState(null);
+
+    useEffect(() => {
+        const obtenerComponentesRenderizados = async () => {
+            const data = await medidas()
+            const filas = [];
+            for (let i = 0; i < data.length; i += 2) {
+                filas.push(data.slice(i, i + 2));
+            }
+            const componentes = (
+                <View style={styles.columna}>
+                    {filas.map((fila, index) => (
+                        <View key={index} style={styles.secundario}>
+                            {fila.map(item => (
+                                <View key={item.id} style={styles.sec_interno}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            const googleLink = `https://www.google.com/search?q=${item.latitud}%2C${item.longitud}`;
+                                            Linking.openURL(googleLink);
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>
+                                            Modulo {item.id}
+                                        </Text>
+                                        <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>
+                                            {item.uv}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
+                        </View>
+                    ))}
+                </View>
+            );
+
+            setComponentesRenderizados(componentes);
+        };
+
+        obtenerComponentesRenderizados();
+    }, []);
+
 
     return (
         <LinearGradient
@@ -106,6 +187,7 @@ export default function Inicio({ navigation }) {
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
         >
+
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={{ paddingTop: StatusBar.currentHeight * 2 || 0, marginLeft: '4%', marginBottom: '1%', width: '92%', flexDirection: '' }}>
                     <Text style={{ fontSize: 25, fontWeight: '900', color: '#e6ebe0' }}>Indice UV</Text>
@@ -113,7 +195,10 @@ export default function Inicio({ navigation }) {
                 </View>
                 <View style={styles.inicial}>
                     <ProgressChart
-                        data={getUV()}
+                        data={{
+                            labels: ["uv"],
+                            data: [mapValue(valorUv, 0, 15, 0, 1)]
+                        }}
                         height={height / 3}
                         strokeWidth={height / 16}
                         radius={height / 9}
@@ -122,56 +207,14 @@ export default function Inicio({ navigation }) {
                         width={width * 0.9}
                         style={{ alignSelf: 'center' }}
                     />
-                    <Text style={styles.text}>{ejemplo.uv.toFixed(2)}</Text>
+                    <Text style={styles.text}>{valorUv.toFixed(2)}</Text>
                 </View>
 
-                
-                    {renderRecomendaciones()}
 
+                {renderRecomendaciones()}
 
-                <View style={styles.columna}>
-                    <View style={styles.secundario}>
-                        <View style={styles.sec_interno}>
-                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 1</Text>
-                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>6.23</Text>
-                            </TouchableOpacity>
-                        </View>
+                {componentesRenderizados}
 
-                        <View style={styles.sec_interno}>
-                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 2</Text>
-
-                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>5.27</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
-                    <View style={styles.secundario}>
-                        <View style={styles.sec_interno}>
-                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 3</Text>
-                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>8.55</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.sec_interno}>
-                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 4</Text>
-                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>9.32</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.secundario}>
-                        <View style={styles.sec_interno}>
-                            <TouchableOpacity onPress={() => { Linking.openURL('https://www.google.com/search?q=-4.004822775285573%2C+-79.22642055646396') }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginTop: "3%" }}>Modulo 5</Text>
-                                <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fdfaff', alignSelf: 'center', marginVertical: "10%" }}>4.02</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
-
-                </View>
             </ScrollView>
         </LinearGradient>
     )
