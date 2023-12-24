@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import LoginScreen from './../pantallas/LoginScreen';
 import Inicio from "../pantallas/Inicio";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Mediciones from "../pantallas/Mediciones";
 import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
 
@@ -39,10 +39,7 @@ const MainStack = () => {
                     component={Inicio}
                 />
 
-                <Tab.Screen
-                    name="Login"
-                    component={LoginScreen}
-                />
+
 
                 {showHistoricos && (
                     <Tab.Screen
@@ -50,6 +47,11 @@ const MainStack = () => {
                         component={Mediciones}
                     />
                 )}
+
+                <Tab.Screen
+                    name="Login"
+                    component={LoginScreen}
+                />
 
             </Tab.Navigator>
         </NavigationContainer >

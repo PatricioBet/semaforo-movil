@@ -264,7 +264,8 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '1%'
+        marginTop: '1%',
+        padding: '2%'
     },
     text: {
         position: 'absolute',
